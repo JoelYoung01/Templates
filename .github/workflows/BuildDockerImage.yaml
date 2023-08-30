@@ -28,21 +28,12 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Validate Secret
-      # perform secret check & put boolean result as an output
-      shell: bash
-      run: |
-        if [ "${{ secrets.DOCKER_ACCESS_KEY }}" == '' ]; then
-          echo "Docker Access Key is not provided";
-          exit 1
-        fi
-
     - name: Build the Docker Image
       env:
         DOCKER_ACCESS_KEY: ${{ secrets.docker_access_key }}
         UNIQUE_TAG: ${{ github.run_number }}
       run: |
         docker build . --file Dockerfile --tag ${{ inputs.image_name }}:$UNIQUE_TAG
-        echo $DOCKER_ACCESS_KEY | docker login -u $DOCKER_USERNAME --password-stdin
+        echo $DOCKER_ACCESS_KEY | docker login -u ${{ inputs.docker_username }} --password-stdin
         docker tag ${{ inputs.image_name }}:$UNIQUE_TAG ${{ inputs.docker_username }}/${{ github.event.repository.name }}:latest
         docker push ${{ inputs.docker_username }}/${{ inputs.image_name }}:latest
