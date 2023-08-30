@@ -38,7 +38,7 @@ jobs:
   build:
     uses: joelyoung01/Templates/.github/workflows/BuildDockerImage.yaml@main
     with:
-      docker_username: ${{ github.actor}}
+      docker_username: ${{ inputs.docker_user }}
       image_name: ${{ inputs.image_name }}
     secrets:
       docker_access_key: ${{ secrets.DOCKER_ACCESS_KEY }}
