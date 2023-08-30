@@ -29,8 +29,10 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build the Docker Image
+      env:
+        docker_token: ${{ secrets.docker_access_key }}
       run: |
-        echo ${{ secrets.docker_access_key }} | docker login -u ${{ inputs.docker_username }} --password-stdin
+        echo $docker_token | docker login -u ${{ inputs.docker_username }} --password-stdin
         docker build . --file Dockerfile --tag ${{ inputs.image_name }}:${{ github.run_number }}
         docker tag ${{ inputs.image_name }}:${{ github.run_number }} ${{ inputs.docker_username }}/${{ github.event.repository.name }}:latest
         docker push ${{ inputs.docker_username }}/${{ inputs.image_name }}:latest
