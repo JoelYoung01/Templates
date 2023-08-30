@@ -1,0 +1,35 @@
+name: CI / CD Workflow
+run-name: Deploy to PROD started by ${{ github.actor }}
+# This workflow will build and deploy the Docker image to the server
+
+on:
+  workflow_call:
+    inputs:
+      docker_username:
+        description: 'Docker Username'
+        required: true
+        type: string
+    secrets:
+      docker_access_key:
+        description: 'Docker Access Key'
+        required: true
+      
+      
+jobs:
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Build the Docker Image
+      env:
+        DOCKER_ACCESS_KEY: ${{ secrets.docker_access_key }}
+        UNIQUE_TAG: ${{ github.run_number }}
+      run: |
+        docker build . --file Dockerfile --tag weddingapp:$UNIQUE_TAG
+        echo $DOCKER_ACCESS_KEY | docker login -u $DOCKER_USERNAME --password-stdin
+        docker tag weddingapp:$UNIQUE_TAG ${{ inputs.docker_username }}/${{ github.event.repository.name }}:latest
+        docker push joelyoung01/weddingapp:latest
