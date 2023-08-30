@@ -1,0 +1,64 @@
+name: Deploy Docker Image to Server
+run-name: Deployment started by ${{ github.actor }}
+# This workflow will deploy a Docker image to a server
+
+on:
+  workflow_call:
+    inputs:
+      docker_user:
+        description: 'The Docker username to use to pull the image'
+        required: true
+        type: string
+      image_name:
+        description: 'The name of the Docker image to deploy'
+        required: true
+        type: string
+      deployment_user:
+        description: 'The user to SSH into the server as'
+        required: true
+        type: string
+      host_port:
+        description: 'The port to expose the Docker container on'
+        required: true
+        type: number
+      server_hostname:
+        description: 'The hostname of the server to deploy to'
+        required: true
+        type: string
+    
+    secrets:
+      SERVER_SSH_KEY:
+        description: 'The SSH key to use to connect to the server'
+        required: true
+      
+jobs:
+  deploy:
+    name: Deploy to server
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Install SSH client
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y openssh-client
+
+    - name: Set up SSH key
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -t rsa ${{ inputs.server_hostname }} >> ~/.ssh/known_hosts
+
+    - name: SSH into the server and deploy Docker container
+      env:
+        DOCKER_IMAGE: ${{ inputs.docker_user }}/${{ inputs.image_name }}
+        DOCKER_TAG: latest
+        CONTAINER_NAME: ${{ inputs.image_name }}_container
+      run: |
+        ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker pull ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
+        ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker stop ${{ env.CONTAINER_NAME }} || true'
+        ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker rm ${{ env.CONTAINER_NAME }} || true'
+        ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker run --restart unless-stopped -d --name ${{ env.CONTAINER_NAME }} -p ${{ inputs.host_port }}:${{ inputs.host_port }}/tcp ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
