@@ -34,5 +34,5 @@ jobs:
       run: |
         echo $docker_token | docker login -u ${{ inputs.docker_username }} --password-stdin
         docker build . --file Dockerfile --tag ${{ inputs.image_name }}:${{ github.run_number }}
-        docker tag ${{ inputs.image_name }}:${{ github.run_number }} ${{ inputs.docker_username }}/${{ github.event.repository.name }}:latest
+        docker tag ${{ inputs.image_name }}:${{ github.run_number }} ${{ inputs.docker_username }}/${{ inputs.image_name }}:latest
         docker push ${{ inputs.docker_username }}/${{ inputs.image_name }}:latest
