@@ -27,7 +27,7 @@ on:
         type: string
     
     secrets:
-      SERVER_SSH_KEY:
+      server_ssh_key:
         description: 'The SSH key to use to connect to the server'
         required: true
       
