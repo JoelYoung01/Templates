@@ -28,6 +28,15 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
+    - name: Validate Secret
+      # perform secret check & put boolean result as an output
+      shell: bash
+      run: |
+        if [ "${{ secrets.DOCKER_ACCESS_KEY }}" == '' ]; then
+          echo "Docker Access Key is not provided";
+          exit 1
+        fi
+
     - name: Build the Docker Image
       env:
         DOCKER_ACCESS_KEY: ${{ secrets.docker_access_key }}
