@@ -9,6 +9,10 @@ on:
         description: 'Docker Username'
         required: true
         type: string
+      image_name:
+        description: 'Image Name'
+        required: true
+        type: string
     secrets:
       docker_access_key:
         description: 'Docker Access Key'
@@ -29,7 +33,7 @@ jobs:
         DOCKER_ACCESS_KEY: ${{ secrets.docker_access_key }}
         UNIQUE_TAG: ${{ github.run_number }}
       run: |
-        docker build . --file Dockerfile --tag weddingapp:$UNIQUE_TAG
+        docker build . --file Dockerfile --tag ${{ inputs.image_name }}:$UNIQUE_TAG
         echo $DOCKER_ACCESS_KEY | docker login -u $DOCKER_USERNAME --password-stdin
-        docker tag weddingapp:$UNIQUE_TAG ${{ inputs.docker_username }}/${{ github.event.repository.name }}:latest
-        docker push joelyoung01/weddingapp:latest
+        docker tag ${{ inputs.image_name }}:$UNIQUE_TAG ${{ inputs.docker_username }}/${{ github.event.repository.name }}:latest
+        docker push ${{ inputs.docker_username }}/${{ inputs.image_name }}:latest
