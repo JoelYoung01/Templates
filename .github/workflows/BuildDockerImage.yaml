@@ -1,6 +1,6 @@
-name: CI / CD Workflow
-run-name: Deploy to PROD started by ${{ github.actor }}
-# This workflow will build and deploy the Docker image to the server
+name: Build Docker Image
+run-name: Docker Build Started by ${{ github.actor }}
+# This workflow will build a docker image and push it to docker hub
 
 on:
   workflow_call:
