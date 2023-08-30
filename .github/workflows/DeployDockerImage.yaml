@@ -61,4 +61,4 @@ jobs:
         ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker pull ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
         ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker stop ${{ env.CONTAINER_NAME }} || true'
         ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker rm ${{ env.CONTAINER_NAME }} || true'
-        ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker run --restart unless-stopped -d --name ${{ env.CONTAINER_NAME }} -p ${{ inputs.host_port }}:${{ inputs.host_port }}/tcp ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
+        ssh ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker run --restart unless-stopped -d --name ${{ env.CONTAINER_NAME }} -p ${{ inputs.host_port }}:${{ inputs.host_port }}/tcp --env-file .env ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
