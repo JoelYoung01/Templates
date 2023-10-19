@@ -42,7 +42,7 @@ You must set up the following secrets in your GitHub repository to securely stor
 
 `server_ssh_key` (Required):
 
-- Description: The SSH key to use to connect to the server.
+- Description: The SSH key to use to connect to the server. Use `ssh-keygen` to generate a key pair. Add the public key to the server's `authorized_keys` file, and the private to this Github Secret.
 - Example: Your private SSH key.
 
 `server_ssh_port` (Required):
