@@ -17,6 +17,9 @@ on:
       docker_access_key:
         description: 'Docker Access Key'
         required: true
+      dotenv_contents:
+        description: 'Dotenv Contents'
+        required: false
       
       
 jobs:
@@ -31,8 +34,10 @@ jobs:
     - name: Build the Docker Image
       env:
         docker_token: ${{ secrets.docker_access_key }}
+        dotenv_contents: ${{ secrets.dotenv_contents }}
       run: |
         echo $docker_token | docker login -u ${{ inputs.docker_username }} --password-stdin
+        echo $dotenv_contents > .env
         docker build . --file Dockerfile --tag ${{ inputs.image_name }}:${{ github.run_number }}
         docker tag ${{ inputs.image_name }}:${{ github.run_number }} ${{ inputs.docker_username }}/${{ inputs.image_name }}:latest
         docker push ${{ inputs.docker_username }}/${{ inputs.image_name }}:latest
