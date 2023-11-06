@@ -34,3 +34,8 @@ You must set up the following secret in your GitHub repository to securely store
 
 - Description: Your Docker Hub access key or password.
 - Example: A long and secure access key generated from your Docker Hub account.
+
+`dotenv_contents` (Optional):
+
+- Description: The contents of your `.env` file. This is useful if you want to use environment variables in your Dockerfile.
+- Example: `DB_HOST=localhost`
