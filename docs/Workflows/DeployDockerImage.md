@@ -36,6 +36,12 @@ This GitHub workflow is designed to deploy a Docker image to a server. It can be
 - Type: String
 - Example: `example.com`
 
+`docker_args` (Optional):
+
+- Description: Additional arguments to pass to the docker run command.
+- Type: String
+- Example: `-v /path/to/volume:/path/to/volume`
+
 ### Secrets
 
 You must set up the following secrets in your GitHub repository to securely store sensitive information:
