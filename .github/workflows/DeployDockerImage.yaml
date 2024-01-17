@@ -37,6 +37,9 @@ on:
       server_ssh_port:
         description: 'The SSH key to use to connect to the server'
         required: true
+      local_host:
+        description: 'The IP address of the host machine'
+        required: true
       
 jobs:
   deploy:
@@ -64,8 +67,10 @@ jobs:
         DOCKER_IMAGE: ${{ inputs.docker_user }}/${{ inputs.image_name }}
         DOCKER_TAG: latest
         CONTAINER_NAME: ${{ inputs.image_name }}_container
+        JUMP_HOST: "${{ inputs.deployment_user }}@${{ inputs.server_hostname }}:${{ secrets.server_ssh_port }}"
+        DEPLOY_HOST: "${{ inputs.deployment_user }}@${{ secrets.local_host }}:22"
       run: |
-        ssh -p ${{ secrets.server_ssh_port }} ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker pull ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
-        ssh -p ${{ secrets.server_ssh_port }} ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker stop ${{ env.CONTAINER_NAME }} || true'
-        ssh -p ${{ secrets.server_ssh_port }} ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker rm ${{ env.CONTAINER_NAME }} || true'
-        ssh -p ${{ secrets.server_ssh_port }} ${{ inputs.deployment_user }}@${{ inputs.server_hostname }} 'docker run --restart unless-stopped -d --name ${{ env.CONTAINER_NAME }} -p ${{ inputs.host_port }}:${{ inputs.host_port }}/tcp --env-file .env ${{ inputs.docker_args }} ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
+        ssh -J ${{ env.JUMP_HOST }} ${{ env.DEPLOY_HOST }} 'docker pull ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
+        ssh -J ${{ env.JUMP_HOST }} ${{ env.DEPLOY_HOST }} 'docker stop ${{ env.CONTAINER_NAME }} || true'
+        ssh -J ${{ env.JUMP_HOST }} ${{ env.DEPLOY_HOST }} 'docker rm ${{ env.CONTAINER_NAME }} || true'
+        ssh -J ${{ env.JUMP_HOST }} ${{ env.DEPLOY_HOST }} 'docker run --restart unless-stopped -d --name ${{ env.CONTAINER_NAME }} -p ${{ inputs.host_port }}:${{ inputs.host_port }}/tcp --env-file .env ${{ inputs.docker_args }} ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
