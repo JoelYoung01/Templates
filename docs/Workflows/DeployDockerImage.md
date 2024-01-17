@@ -55,8 +55,3 @@ You must set up the following secrets in your GitHub repository to securely stor
 
 - Description: The SSH port to use to connect to the server.
 - Example: `22`
-
-`local_host` (Optional):
-
-- Description: The local host to use to connect to the server. Defaults to `localhost`.
-- Example: `172.123.0.53`
