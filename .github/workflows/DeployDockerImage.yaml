@@ -70,7 +70,7 @@ jobs:
         JUMP_HOST: "${{ inputs.deployment_user }}@${{ inputs.server_hostname }}:${{ secrets.server_ssh_port }}"
         DEPLOY_HOST: ${{ secrets.local_host }}
       run: |
-        ssh -J ${{ env.JUMP_HOST }} ${{ secrets.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker pull ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
-        ssh -J ${{ env.JUMP_HOST }} ${{ secrets.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker stop ${{ env.CONTAINER_NAME }} || true'
-        ssh -J ${{ env.JUMP_HOST }} ${{ secrets.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker rm ${{ env.CONTAINER_NAME }} || true'
-        ssh -J ${{ env.JUMP_HOST }} ${{ secrets.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker run --restart unless-stopped -d --name ${{ env.CONTAINER_NAME }} -p ${{ inputs.host_port }}:${{ inputs.host_port }}/tcp --env-file .env ${{ inputs.docker_args }} ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
+        ssh -J ${{ env.JUMP_HOST }} ${{ inputs.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker pull ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
+        ssh -J ${{ env.JUMP_HOST }} ${{ inputs.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker stop ${{ env.CONTAINER_NAME }} || true'
+        ssh -J ${{ env.JUMP_HOST }} ${{ inputs.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker rm ${{ env.CONTAINER_NAME }} || true'
+        ssh -J ${{ env.JUMP_HOST }} ${{ inputs.deployment_user }}@${DEPLOY_HOST:-localhost} 'docker run --restart unless-stopped -d --name ${{ env.CONTAINER_NAME }} -p ${{ inputs.host_port }}:${{ inputs.host_port }}/tcp --env-file .env ${{ inputs.docker_args }} ${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }}'
