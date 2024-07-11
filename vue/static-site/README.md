@@ -1,6 +1,6 @@
 # VueTemplate
 
-This template should help get you started developing with Vue 3 in Vite.
+This template should help get you started developing with Vue 3 in Vite using Vuetify.
 
 ## Recommended IDE Setup
 
@@ -16,23 +16,37 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
+### Step 1 - Create new Repo
+
+Clone project to create a new Repository
+
+### Step 2 - Setup Environment
+
+Copy `.envtemplate` to a new file, `.env`, and fill out applicable values
+
+### Step 3 - Install Dependencies
+
+Install dependencies
+
 ```sh
-pnpm install
+pnpm i
 ```
 
-### Compile and Hot-Reload for Development
+### Run / Build / Deploy
+
+#### Compile and Hot-Reload for Development
 
 ```sh
 pnpm dev
 ```
 
-### Type-Check, Compile and Minify for Production
+#### Type-Check, Compile and Minify for Production
 
 ```sh
 pnpm build
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+#### Lint with [ESLint](https://eslint.org/)
 
 ```sh
 pnpm lint
