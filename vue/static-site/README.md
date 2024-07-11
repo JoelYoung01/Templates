@@ -1,6 +1,6 @@
-# VueTemplate
+# Vue Static Site Template
 
-This template should help get you started developing with Vue 3 in Vite using Vuetify.
+This template should help get you started developing with a static Vue 3 web application built with Vite and styled with Vuetify.
 
 ## Recommended IDE Setup
 
