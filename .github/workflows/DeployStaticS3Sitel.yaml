@@ -9,11 +9,11 @@ on:
           required: true
           default: 'stage'
         app_name:
-          description: 'App name'
+          description: 'App Name'
           type: string
           required: true
         app_title:
-          description: 'App title'
+          description: 'App Title'
           type: string
           required: true
     secrets:
