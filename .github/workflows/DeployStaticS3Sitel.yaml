@@ -12,6 +12,10 @@ on:
           description: 'App name'
           type: string
           required: true
+        app_title:
+          description: 'App title'
+          type: string
+          required: true
     secrets:
       AWS_ACCESS_KEY_ID:
         description: 'AWS Access Key ID'
@@ -30,6 +34,15 @@ jobs:
       name: ${{ inputs.environment }}
 
     steps:
+      - name: Validate Inputs
+        run: |
+          echo "Validating app_name..."
+          if ! [[ "${{ inputs.app_name }}" =~ ^[a-zA-Z0-9-]+$ ]]; then
+            echo "Error: app_name must only contain alphanumeric characters and dashes."
+            exit 1
+          fi
+        shell: bash
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -49,7 +62,7 @@ jobs:
         run: pnpm build
         env:
           NODE_ENV: production
-          VITE_APP_NAME: ${{ inputs.app_name }}
+          VITE_APP_TITLE: ${{ inputs.app_title }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
