@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "joelyoung01.personal-agent-dev",
+  "version": "1.0.0",
+  "description": "Personal agent development skills: Azure DevOps work items, pre-ship code review, git work-tree cleanup, log diagnosis, and token-efficient caveman communication.",
+  "author": {
+    "name": "joelyoung01"
+  },
+  "keywords": [
+    "agent-skills",
+    "azure-devops",
+    "code-review",
+    "git",
+    "diagnostics",
+    "personal"
+  ]
+}
