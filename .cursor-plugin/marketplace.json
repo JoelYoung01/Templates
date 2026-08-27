@@ -1,0 +1,29 @@
+{
+  "name": "joelyoung01-references",
+  "owner": {
+    "name": "joelyoung01"
+  },
+  "metadata": {
+    "description": "Agent plugins and skills from the JoelYoung01/References repository.",
+    "pluginRoot": "agent-plugins"
+  },
+  "plugins": [
+    {
+      "name": "personal-agent-dev",
+      "source": "personal-agent-dev",
+      "description": "Personal agent development skills: pre-ship code review, git work-tree cleanup, log diagnosis, and token-efficient caveman communication.",
+      "version": "1.0.0",
+      "author": {
+        "name": "joelyoung01"
+      },
+      "repository": "https://github.com/JoelYoung01/References",
+      "keywords": [
+        "agent-skills",
+        "code-review",
+        "git",
+        "diagnostics",
+        "personal"
+      ]
+    }
+  ]
+}
