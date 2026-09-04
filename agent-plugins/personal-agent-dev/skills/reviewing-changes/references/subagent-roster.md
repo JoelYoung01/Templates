@@ -86,5 +86,6 @@ For each finding: file/location, what's wrong, why it matters, suggested fix (de
 ## Anti-patterns
 
 - Fewer than five reviewers — misses blind spots the loop is designed to catch.
+- Continuing before all review subagents finish — partial results skew multi-reviewer ranking; wait for every spawned reviewer before aggregate/triage/fix.
 - Subagents that fix issues — causes duplicate/conflicting edits across agents.
 - All reviewers with the same focus — repetition without breadth.

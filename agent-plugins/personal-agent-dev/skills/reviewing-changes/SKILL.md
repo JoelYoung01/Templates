@@ -21,6 +21,7 @@ description: >
 
 ```text
 - [ ] Spawn review subagents (≥5, readonly — see roster)
+- [ ] Wait for ALL review subagents to finish before continuing
 - [ ] Aggregate findings; triage per heuristics
 - [ ] Implement worthwhile fixes (parallelize independent chunks)
 - [ ] Repeat until convergence criteria met
@@ -31,10 +32,11 @@ description: >
 ## Iteration loop
 
 1. **Spawn** ≥5 readonly subagents per [subagent roster](references/subagent-roster.md). Each reviews the current diff — **no edits**.
-2. **Aggregate** all findings. Issues flagged by multiple reviewers rank higher.
-3. **Triage** per [triage heuristics](references/triage-heuristics.md): attempt to disprove each finding; weigh against change scope and project context.
-4. **Fix** triaged items. Use one subagent per independent fix chunk when context is tight.
-5. **Loop** until convergence (below).
+2. **Wait** until every spawned review subagent has completed. Do not aggregate, triage, or fix until all results are in — partial batches skew consensus ranking.
+3. **Aggregate** all findings. Issues flagged by multiple reviewers rank higher.
+4. **Triage** per [triage heuristics](references/triage-heuristics.md): attempt to disprove each finding; weigh against change scope and project context.
+5. **Fix** triaged items. Use one subagent per independent fix chunk when context is tight.
+6. **Loop** until convergence (below).
 
 ## Convergence — stop when
 
